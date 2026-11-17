@@ -11,6 +11,7 @@ def test_cloud_entrypoint_uses_cloud_defaults(monkeypatch):
     app = AppTest.from_file(str(root / "cloud" / "streamlit_app.py")).run(timeout=30)
     assert not app.exception
     assert app.selectbox[0].value == "CPU"
+    assert app.selectbox[0].options == ["CPU"]
     assert app.select_slider[0].value == 320
     assert app.slider[1].value == 10
     assert app.slider[1].max == 30

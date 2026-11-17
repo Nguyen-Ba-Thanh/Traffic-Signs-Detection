@@ -42,6 +42,7 @@ def render_camera(model_path, device, device_error, confidence, image_size, use_
     worker = st.session_state.get("_live_worker")
     if worker is None:
         return
+    st.success(f"Đã tải best.pt: {len(worker.model.names)} lớp. Thiết bị: {'GPU' if device == '0' else 'CPU'}.")
     try:
         ice_servers = st.secrets.get("webrtc", {}).get("ice_servers", [{"urls": ["stun:stun.l.google.com:19302"]}])
     except FileNotFoundError:
@@ -59,15 +60,21 @@ def render_camera(model_path, device, device_error, confidence, image_size, use_
     @st.fragment(run_every=1)
     def metrics():
         stats = worker.snapshot()
-        columns = st.columns(3)
+        columns = st.columns(4)
         columns[0].metric("FPS xử lý gần đây", f"{stats['fps']:.1f}")
         columns[1].metric("Xử lý một frame", f"{stats['processing_ms']:.0f} ms")
         columns[2].metric("Frame bỏ qua", stats["dropped"])
+        columns[3].metric("Frame đã nhận diện", stats["processed"])
         st.caption("Thời gian xử lý tính trên máy chủ, chưa gồm mạng và hiển thị trình duyệt. Frame cũ được bỏ để giảm trễ.")
         if stats["error"]:
             st.error(f"Lỗi nhận diện: {stats['error']}")
         if stats["busy"]:
             st.warning("Máy chủ đang bận; camera đang trả hình chưa nhận diện.")
+        if not stats["processed"]:
+            st.caption("Chưa có frame được nhận diện. Bấm START và cấp quyền camera. Nếu đang chờ kết nối, kiểm tra WebRTC/TURN.")
+        elif not stats["rows"]:
+            st.info("Đã nhận và xử lý hình, nhưng chưa phát hiện biển vượt ngưỡng. Bấm STOP, thử confidence 0,25 "
+                    "và ảnh 640; đưa biển rõ, đủ lớn vào khung hình rồi START lại.")
         if stats["rows"]:
             st.dataframe(stats["rows"][-30:], hide_index=True, alt="Các detection camera gần đây")
     metrics()

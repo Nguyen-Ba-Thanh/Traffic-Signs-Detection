@@ -46,7 +46,7 @@ mode = st.segmented_control("Chế độ", ["Video tải lên", "Camera trực t
                             disabled=live_playing)
 with st.sidebar:
     st.subheader("Cấu hình phân tích")
-    device_choice = st.selectbox("Thiết bị nhận diện", ["Tự động", "GPU", "CPU"], index=2 if CLOUD else 0,
+    device_choice = st.selectbox("Thiết bị nhận diện", ["CPU"] if CLOUD else ["Tự động", "GPU", "CPU"],
                                 disabled=live_playing)
     try:
         info = hardware()
@@ -85,6 +85,7 @@ with upload_col:
                                 max_upload_size=UPLOAD_MB, help=f"Tối đa {UPLOAD_MB} MB. Khuyến nghị MP4 H.264.")
     if uploaded:
         st.caption(f"{uploaded.name} · {uploaded.size / 1024 ** 2:.1f} MB")
+        st.caption(f"Chỉ phân tích {max_seconds} giây đầu video. Nếu biển nằm sau đoạn này, hãy cắt đoạn có biển rồi tải lên.")
 with detail_col:
     st.subheader("Bạn sẽ nhận được")
     st.write("Video có khung nhận diện, tên biển và confidence; bảng detection theo thời gian; file CSV để phân tích tiếp.")
@@ -118,6 +119,9 @@ if uploaded is not None:
                     result = analyze_video(source, Path(work) / "output", model,
                                            Options(confidence=confidence, image_size=image_size, max_seconds=max_seconds,
                                                    device=device, ocr_interval=ocr_interval), reader, update)
+                    result["model_classes"] = len(model.names)
+                    result["confidence"] = confidence
+                    result["image_size"] = image_size
                     result["video"] = result["video"].read_bytes()
                     result["csv"] = result["csv"].read_bytes()
                 st.session_state.result = result
@@ -134,6 +138,9 @@ if uploaded is not None:
     if result:
         st.divider()
         st.subheader("2. Kết quả phân tích")
+        if "model_classes" in result:
+            st.success(f"Đã tải best.pt: {result['model_classes']} lớp; đã phân tích {result['frames']} frame. "
+                       f"Ảnh inference {result['image_size']}, confidence {result['confidence']:.2f}.")
         metrics = st.columns(4)
         metrics[0].metric("Video đã phân tích", f"{result['seconds']:.1f} giây")
         metrics[1].metric("Detection trên các frame", result["detections"])
@@ -159,7 +166,9 @@ if uploaded is not None:
         if result["counts"]:
             st.bar_chart(pd.DataFrame.from_dict(result["counts"], orient="index", columns=["Detection"]), alt="Số detection trên các frame theo nhóm biển")
         else:
-            st.info("Không phát hiện biển với cấu hình hiện tại. Có thể thử giảm ngưỡng tin cậy.")
+            st.info("Model đã chạy nhưng không có detection vượt ngưỡng trong đoạn được phân tích. "
+                    "Thử ảnh inference 640, confidence 0,25 và một đoạn video có biển rõ, đủ lớn. "
+                    "Model chỉ hỗ trợ 32 nhóm biển đã huấn luyện.")
         import io
         table = pd.read_csv(io.BytesIO(result["csv"]))
         st.dataframe(table.head(1000), hide_index=True, width="stretch", alt="Bảng detection và thời điểm xuất hiện")
