@@ -1,0 +1,9 @@
+easyocr==1.7.2
+python-bidi==0.6.10
+pyclipper==1.4.0
+PyQt5==5.15.11
+PyQt5-sip==12.18.0
+python-dotenv==1.2.2
+PyYAML>=6.0.1
+Pillow>=10.2.0
+shapely==2.1.2

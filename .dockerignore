@@ -1,0 +1,79 @@
+# ── Git ──────────────────────────────────────────────────────
+.git
+.gitignore
+.gitattributes
+
+# ── Python cache ─────────────────────────────────────────────
+*.pyo
+.Python
+*.egg-info/
+dist/
+*.egg
+
+# ── Virtual environments ─────────────────────────────────────
+venv/
+env/
+.venv/
+.env/
+
+# ── YOLO cache ──
+runs/
+Train.cache
+Valid.cache
+
+# ── Model weights lớn  ─────────────────────
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+models/
+
+# ── Dataset (mount qua volume) ───────────────────────────────
+data/
+
+# ── Output ───────────────────────────────────────────────────
+output/
+logs/
+*.log
+
+# ── IDE & OS ─────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Notebook ─────────────────────────────────────────────────
+*.ipynb
+.ipynb_checkpoints/
+
+# ── Docs & README ────────────────────────────────────────────
+docs/
+*.txt
+!requirements.txt
+!requirements-web.txt
+
+# ── Test ────────────────────────────────────────────────────
+test_*.py
+
+# ── Thư mục lớn chưa có trong dockerignore ──
+dataset/
+EasyOCR/
+easyocr_models/
+image_test/
+inference/
+installer_output/
+processing/
+PyInstaller/
+Real-time_sys/
+src/
+UI/
+venv_build/
+.venv-web/
+.venv-web-gpu/
+.gpu-install-tmp/
+.streamlit/secrets.toml
+__pycache__/
+.pytest_cache/

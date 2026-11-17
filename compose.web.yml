@@ -1,0 +1,14 @@
+services:
+  traffic-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./UI/models:/app/models:ro
+      - ocr-models:/app/easyocr_models
+    restart: unless-stopped
+
+volumes:
+  ocr-models:

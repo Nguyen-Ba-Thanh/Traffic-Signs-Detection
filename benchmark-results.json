@@ -1,0 +1,138 @@
+{
+  "hardware": {
+    "available": true,
+    "name": "NVIDIA GeForce RTX 3050 Ti Laptop GPU",
+    "torch": "2.7.1+cu126",
+    "cuda": "12.6"
+  },
+  "image_size": 480,
+  "ocr": false,
+  "warmup_runs": 2,
+  "note": "File pipeline benchmark without UI preview; not realtime camera FPS.",
+  "summary": {
+    "cpu": {
+      "median_pipeline_fps": 6.58827719726525,
+      "median_yolo_ms_per_frame": 114.70178111210569
+    },
+    "0": {
+      "median_pipeline_fps": 23.63384493686716,
+      "median_yolo_ms_per_frame": 23.681079996620408
+    }
+  },
+  "results": [
+    {
+      "frames": 90,
+      "detections": 83,
+      "seconds": 3.0,
+      "elapsed": 13.660627400036901,
+      "limit_reached": true,
+      "timings": {
+        "YOLO": 11.382554100186098,
+        "OCR": 4.799978341907263e-05,
+        "Preview": 0.0,
+        "MP4 encoding": 0.9605486000073142,
+        "Read / draw / write": 1.3174767000600696
+      },
+      "processing_fps": 6.58827719726525,
+      "ocr_calls": 0,
+      "device": "cpu",
+      "source_fps": 30.0,
+      "run": 1
+    },
+    {
+      "frames": 90,
+      "detections": 83,
+      "seconds": 3.0,
+      "elapsed": 11.428655299998354,
+      "limit_reached": true,
+      "timings": {
+        "YOLO": 9.55005590012297,
+        "OCR": 5.2099465392529964e-05,
+        "Preview": 0.0,
+        "MP4 encoding": 0.4430162999778986,
+        "Read / draw / write": 1.4355310004320927
+      },
+      "processing_fps": 7.874942207769007,
+      "ocr_calls": 0,
+      "device": "cpu",
+      "source_fps": 30.0,
+      "run": 2
+    },
+    {
+      "frames": 90,
+      "detections": 83,
+      "seconds": 3.0,
+      "elapsed": 16.381784899975173,
+      "limit_reached": true,
+      "timings": {
+        "YOLO": 10.323160300089512,
+        "OCR": 5.310028791427612e-05,
+        "Preview": 0.0,
+        "MP4 encoding": 4.518269099993631,
+        "Read / draw / write": 1.5403023996041156
+      },
+      "processing_fps": 5.493906833078757,
+      "ocr_calls": 0,
+      "device": "cpu",
+      "source_fps": 30.0,
+      "run": 3
+    },
+    {
+      "frames": 90,
+      "detections": 83,
+      "seconds": 3.0,
+      "elapsed": 3.8080981000093743,
+      "limit_reached": true,
+      "timings": {
+        "YOLO": 1.9040205999626778,
+        "OCR": 4.6800123527646065e-05,
+        "Preview": 0.0,
+        "MP4 encoding": 0.6189043999766,
+        "Read / draw / write": 1.285126299946569
+      },
+      "processing_fps": 23.63384493686716,
+      "ocr_calls": 0,
+      "device": "0",
+      "source_fps": 30.0,
+      "run": 1
+    },
+    {
+      "frames": 90,
+      "detections": 83,
+      "seconds": 3.0,
+      "elapsed": 5.98707979999017,
+      "limit_reached": true,
+      "timings": {
+        "YOLO": 2.440285599906929,
+        "OCR": 4.640000406652689e-05,
+        "Preview": 0.0,
+        "MP4 encoding": 0.870406899950467,
+        "Read / draw / write": 2.6763409001287073
+      },
+      "processing_fps": 15.03237020494495,
+      "ocr_calls": 0,
+      "device": "0",
+      "source_fps": 30.0,
+      "run": 2
+    },
+    {
+      "frames": 90,
+      "detections": 83,
+      "seconds": 3.0,
+      "elapsed": 3.577412499987986,
+      "limit_reached": true,
+      "timings": {
+        "YOLO": 2.1312971996958368,
+        "OCR": 4.859996261075139e-05,
+        "Preview": 0.0,
+        "MP4 encoding": 0.24150790000567213,
+        "Read / draw / write": 1.2045588003238663
+      },
+      "processing_fps": 25.15784802571754,
+      "ocr_calls": 0,
+      "device": "0",
+      "source_fps": 30.0,
+      "run": 3
+    }
+  ]
+}

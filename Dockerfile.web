@@ -1,0 +1,15 @@
+FROM python:3.11-slim
+ARG TORCH_INDEX=https://download.pytorch.org/whl/cpu
+ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 MODEL_PATH=/app/models/best.pt OCR_MODEL_DIR=/app/easyocr_models
+WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*
+COPY requirements-web.txt .
+RUN pip install torch==2.7.1 torchvision==0.22.1 --index-url ${TORCH_INDEX} && pip install -r requirements-web.txt
+COPY app.py .
+COPY traffic_web/ traffic_web/
+COPY .streamlit/ .streamlit/
+RUN mkdir -p /app/models /app/easyocr_models && useradd --create-home web && chown -R web:web /app
+USER web
+EXPOSE 8501
+HEALTHCHECK --interval=30s --timeout=5s CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')"
+CMD ["streamlit", "run", "app.py", "--server.address=0.0.0.0", "--server.port=8501"]

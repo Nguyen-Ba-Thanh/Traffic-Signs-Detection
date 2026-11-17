@@ -1,0 +1,13 @@
+# Merge with compose.web.yml; CUDA 12.6 for the existing NVIDIA driver.
+services:
+  traffic-web:
+    build:
+      args:
+        TORCH_INDEX: https://download.pytorch.org/whl/cu126
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
